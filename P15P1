@@ -2,98 +2,70 @@
 # ps15P1
 class Employee:
     RaiseAmount = 1.04
-    def __init__(self, first, last, pay):
-         self.first = first
-         self.last = last
-         self.pay = pay
-         self.email = first + '.' + last + '@company.com'
-        
-    def fullname(self):
+
+    def __init__(self, first, last, pay, bonusrate):
+        self.first = first
+        self.last = last
+        self.pay = pay
+        self.bonusrate = bonusrate
+        self.email = first + '.' + last + '@company.com'
+    def fname(self):
         return '{} {}'.format(self.first, self.last)
-        
-    def apply_raise(self):
+    def RaiseApplied(self):
         self.pay = int(self.pay * self.RaiseAmount)
-
-    def calculate_bonus(self):
+    def BonusFormula(self):
         return self.pay * self.bonusrate
-
-    def total_compensation(self):
-        return self.pay + self.calculate_bonus()
-
+    def TotalCompensation(self):
+        return self.pay + self.BonusFormula()
 
 class Developer(Employee):
-    RaiseAmount = 1.10  
+    RaiseAmount = 1.10
     
-    def __init__(self, first, last, pay, prolanguage):
-        super().__init__(first, last, pay)
+    def __init__(self, first, last, pay, bonusrate, prolanguage):
+        super().__init__(first, last, pay, bonusrate)
         self.prolanguage = prolanguage
 
-
 class Manager(Employee):
-    def __init__(self, first, last, pay, employees=None):
-        super().__init__(first, last, pay)
-        if employees is None: 
-           self.employees = []
-        else: self.employees = employees
-
-    def add_emp(self, emp):
+    def __init__(self, first, last, pay, bonusrate, employees=None):
+        super().__init__(first, last, pay, bonusrate)
+        if employees is None:
+            self.employees = []
+        else:
+            self.employees = employees
+    def AddEmp(self, emp):
         if emp not in self.employees:
             self.employees.append(emp)
-            
-    def remove_emp(self, emp):
-        if emp is self.employees:
+    def RemoveEmp(self, emp):
+        if emp in self.employees:
             self.employees.remove(emp)
-
-    def print_emps(self):
+    def PrintEmps(self):
         for emp in self.employees:
-            print('-->', emp.fullname()) 
+            print('-->', emp.fname())   # FIXED HERE
 
-dev1 = Developer('Corey', 'Schafer', 50000, 'Python')
-dev2 = Developer('Test', 'Employee', 60000, 'Java')
+#Developers 
+dev1 = Developer('Corey', 'Schafer', 50000, 0.10, 'Python')
+dev2 = Developer('Test', 'Employee', 60000, 0.15, 'Java')
 
+mgr1 = Manager('Sue', 'Smith', 90000, 0.20, [dev1])
 
-mgr1 = Manager('Sue', 'Smith', 90000, [dev1])
-
-print(dev1.fullname())
-print("Email: ", dev1.email)
-print("Programming Language: ", dev1.prolanguage)
-print("Salary: ", dev1.pay)
-print("Bonus Amount: ", dev1.calculate_bonus())
-print("Total Compensation: ", dev1.total_compensation())
+# Output
+print(dev1.fname())
+print("Email:", dev1.email)
+print("Programming Language:", dev1.prolanguage)
+print("Salary:", dev1.pay)
+print("Bonus Amount:", dev1.BonusFormula())
+print("Total Compensation:", dev1.TotalCompensation())
 
 print()
 
-# Display Manager information
-print(mgr1.fullname())
+# Output Manager
+print(mgr1.fname())
 print("Email:", mgr1.email)
 print("Salary:", mgr1.pay)
-print("Bonus Amount:", mgr1.calculate_bonus())
-print("Total Compensation:", mgr1.total_compensation())
+print("Bonus Amount:", mgr1.BonusFormula())
+print("Total Compensation:", mgr1.TotalCompensation())
 
 print()
 
-# Display employees managed by manager
-print("Employees managed by", mgr1.fullname())
-
-mgr1.print_emps()
-
-
-
-
-
-# print(mgr1.email)
-
-# mgr1.add_emp(dev2)
-
-# mgr1.remove_emp(dev1)
-
-# mgr1.print_emps()
-
-# print(dev1.pay)
-# dev1.apply_raise()
-# print(dev1.pay)
-
-# print(dev1.email) 
-# print(dev1.prolanguage)
-
-# print(dev2.email)
+print("Employees managed by", mgr1.fname())
+mgr1.PrintEmps()
